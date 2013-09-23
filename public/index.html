@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Codematics - SDSLabs</title>
+    <meta charset="utf-8" lang="en">
+    <link href="/reset.css" rel="stylesheet" type="text/css">
+	<link href="/style.css" rel="stylesheet" type="text/css">
+	<link href="https://sdslabs.co.in/lollipop/topbar.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://cdn.sdslabs.co.in/cdnjs/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.console.js"></script>
+    <script src="https://sdslabs.co.in/api/public/api.js"></script>
+    <!--<link type="text/css" href="https://sdslabs.co.in/comet/cometchatcss.php" rel="stylesheet" charset="utf-8">-->
+    <script src="https://cdn.sdslabs.co.in/js/MathJax/MathJax.js">
+    MathJax.Hub.Config({
+			extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js","TeX/noErrors.js","TeX/noUndefined.js","TeX/autobold.js"],
+			jax: ["input/TeX","output/HTML-CSS"],
+			tex2jax: {
+				inlineMath: [['$','$'],["\\(","\\)"]],
+				processEscapes: true,
+			},
+		});
+	</script>
+    <!-- Everything beyond this point is user-customized -->
+    <script>
+      $(document).ready(function(){
+		topbar.showTopbar();
+		topbar.setCurrent('Codematics');
+		var con = $('<div class="console">');
+		$('#board').append(con);//Attach it to board instead of body
+		$(document).ajaxError(function(e){
+			controller1.reset();
+		});
+		 $.fn.simulateKeyPress = function(character) {
+		  // Internally calls jQuery.event.trigger
+		  // with arguments (Event, data, elem). That last arguments is very important!
+		  console.log(character.charCodeAt(0));
+		  var code=character.charCodeAt(0);
+		  $(this).trigger({ type: 'keypress', which: code,charCode:code, keyCode:code  });
+		  $(this).trigger({ type: 'keydown', which: code,charCode:code, keyCode:code  });
+		  $(this).trigger({ type: 'keyup', which: code,charCode:code, keyCode:code  });
+		};
+         var controller1 = con.console({
+		   errReport:function(){
+				report({msg:'Error in command',className:'error'});
+		   },
+           welcomeMessage: "Welcome to SDSLabs CodeMatics. Type help to begin.",
+           promptLabel: 'Codematics > ',
+           commandHandle:function(line,report){
+			   if(line == 'clear' || line == 'cls'){
+				   controller1.reset();
+			   }
+			   else{
+				   var params = line.split(' ');
+				   $.each(params,function(i,elem){
+					   if(elem == '.' || elem == '..' || elem == '...')
+						{
+							report({msg:'Incorrect Parameter. Due to JS Handling, .. cannot be passed as a parameter. Please use /',className:'error'});
+							return false;
+						}
+					   params[i] = encodeURIComponent(elem);
+				   });
+				   if(params[params.length-1].substr(-3,3)=='%3F'){
+					   var source = ['XKCD','HAL','Google','Bing','Siri','Ducks','Chuck Norris','Rajnikant','G.One','Iris','Mark Zuckerburg','Einstein'];
+					   var r = Math.floor(Math.random()*source.length);
+						report('Asking '+source[r]+"... ");
+					}
+					$.getJSON(params.join('/'),{},function(msg){
+						if(msg.clear == true)
+							controller1.reset();
+						report(msg);
+						if(msg.exit == true){
+							window.location.href='https://sdslabs.co.in';
+							close();
+						}
+						if(msg.redirect){
+							window.location.href=msg.redirect;
+						}
+						MathJax.Hub.Queue(["Typeset",MathJax.Hub,function(){
+							$('a').click(function(){
+								window.location.href=this.getAttribute('href');
+							});
+							$(document).scrollTop($(document).height());
+						}]);
+						//The above resets all math in the page
+					});
+				}
+           },
+           autofocus:true,
+           animateScroll:true,
+           promptHistory:true,
+         });
+         //Disable right click and selections
+         $(document).select(function(){
+			 return false;
+         });
+         //This is supposed to set the focus to the correct place
+         //but is buggy as of now
+         $(document).click(function(e){
+            // if(JQuery.contains('#board'
+		 });
+		 if(window.location.hash){
+			var query =window.location.hash.substr(3).replace(/\//g,' ');//Remove #!
+			var con = $('.jquery-console-prompt').last();
+			var current = con.html();
+			con.html('');
+			$.writeString=function(){
+				console.log(query);
+				con.simulateKeyPress(query);
+				//con.sendkeys(query);
+				query = query.substr(1,query.length-1);
+				if(query.length)
+					setTimeout("$.writeString();",50);
+				else
+					con.append(current);
+			}
+			$.writeString(query);
+		 }
+       });
+    </script>
+  </head>
+  <body>
+  <!-- This is the playing area -->
+  <div id = "board">
+	  <pre id="logo">
+
+<!-- Generated using
+	http://patorjk.com/software/taag/
+	Font name: Standard
+-->
+   ____          _      ____        _   
+  / ___|___   __| | ___| __ )  ___ | |_ 
+ | |   / _ \ / _` |/ _ \  _ \ / _ \| __|
+ | |__| (_) | (_| |  __/ |_) | (_) | |_ 
+  \____\___/ \__,_|\___|____/ \___/ \__|
+                                        
+</pre>
+    <noscript>
+      <p>
+        <strong class="red">Please enable JavaScript or upgrade your browser.</strong>
+      </p>
+  </noscript>
+  </div>
+
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://stat.sdslabs.co.in/" : "http://stat.sdslabs.co.in/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">try {var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);piwikTracker.trackPageView();piwikTracker.enableLinkTracking();
+} catch( err ) {}</script><noscript><p><img src="http://stat.sdslabs.co.in/piwik.php?idsite=1" style="border:0" alt="" /></p></noscript>
+<!--<script src="https://sdslabs.co.in/comet/cometchatjs.php"></script>-->
+<!-- End Piwik Tracking Code -->
+  </body>
+</html>
