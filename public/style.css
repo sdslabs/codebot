@@ -22,3 +22,7 @@ html, body, #board{
 .red{
   color:red;
 }
+
+img[src^="project"] {
+  background-color: white;
+}
