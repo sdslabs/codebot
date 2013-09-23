@@ -31,6 +31,10 @@ $(document).ready(function(){
       tabcompletion: true,
       completion: function(term, partialCommand, cb){
         cb(["problems, problem"]);
+      },
+      keydown: function(e, term){
+        if(e.keyCode==76 && e.ctrlKey==true)
+          term.clear();
       }
     }
   )
