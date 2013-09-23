@@ -15,6 +15,12 @@ module.exports = {
 
   //Returns the problem text in html
   getHTML : function(id){
-    return fs.readFileSync("problems/"+id+".md",{encoding:"utf-8"});
+  	try{
+      var html = fs.readFileSync("problems/"+id+".md",{encoding:"utf-8"});
+	}
+	catch(e){
+		return false;
+	}
+	return html;
   }
 }

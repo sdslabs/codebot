@@ -1,0 +1,88 @@
+.terminal .terminal-output .format, .terminal .cmd .format,
+.terminal .cmd .prompt, .terminal .cmd .prompt div, .terminal .terminal-output div div{
+    display: inline-block;
+}
+.terminal .clipboard {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    opacity: 0.01;
+    filter: alpha(opacity = 0.01);
+    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=0.01);
+    width: 2px;
+}
+.cmd > .clipboard {
+    position: fixed;
+}
+.terminal {
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+    line-height:22px;
+}
+.cmd {
+    padding: 0;
+    margin: 0;
+}
+.terminal .terminal-output div div, .terminal .prompt {
+    display: block;
+    height: auto;
+}
+.terminal .prompt {
+    font-weight: bold;
+    float: left;
+}
+
+.terminal {
+    font-family: inherit;
+    color: #5DFC0A;
+    background-color: black;
+    font-size: 18px;
+}
+.terminal-output > div, .terminal-output > div > div {
+    text-align: justify;
+}
+.terminal-output > div > div {
+    line-height: 25px;
+}
+.terminal .terminal-output div span {
+    display: inline-block;
+}
+.terminal .cmd{
+    line-height: 25px;
+}
+.terminal .cmd span {
+    float: left;
+    /*display: inline-block; */
+}
+.terminal .cmd span.inverted {
+    background-color: #aaa;
+    color: #000;
+    margin-top:-5px;
+}
+.terminal .terminal-output div div::-moz-selection,
+.terminal .terminal-output div span::-moz-selection,
+.terminal .terminal-output div div a::-moz-selection {
+    background-color: #aaa;
+    color: #000;
+}
+.terminal .terminal-output div div::selection,
+.terminal .terminal-output div div a::selection,
+.terminal .terminal-output div span::selection,
+.terminal .cmd > span::selection,
+.terminal .prompt span::selection {
+    background-color: #aaa;
+    color: #000;
+}
+.terminal .terminal-output div.error, .terminal .terminal-output div.error div {
+    color: red;
+}
+.clear {
+    clear: both;
+}
+.terminal a {
+    color: #0F60FF;
+}
+.terminal a:hover {
+    color: red;
+}
