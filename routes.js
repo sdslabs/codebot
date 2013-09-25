@@ -86,7 +86,13 @@ module.exports=function(app,config){
     var cwd = req.session.cwd||'/';
     switch(cwd){
       case 'problems':
-        res.redirect('/problems');
+        var response=''
+        for(var i=1;i<=430;i++){
+          response+=i+"\t";
+          if(i%10==0)
+            response+="\n";
+        }
+        res.json(response);
         break;
       case 'users':
         res.json('all top recent');
