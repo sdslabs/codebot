@@ -112,6 +112,7 @@ module.exports=function(app,config, r){
   //Show the problems in a table
   app.get('/problems/:start/:end', function(req,res){
     var start=parseInt(req.params.start), end=parseInt(req.params.end);
+    start = start<=0?1:start;
     response = ["Showing problems "+start+" to "+end];
     for(var i=start;i<=end;i++){
       if(i>430)
