@@ -6,6 +6,7 @@
 var fs = require('fs');
 var util = require('util');
 var titles = fs.readFileSync("problems/titles.md",{encoding:"utf-8"}).split("\n");
+var solutions = fs.readFileSync("problems/solutions.txt",{encoding:"utf-8"}).split("\n");
 
 module.exports = {
   //returns the title of the given problem id
@@ -22,5 +23,11 @@ module.exports = {
       return false;
     }
     return html;
+  },
+
+  //Checks the answer for a problem
+  check: function(id, solution){
+    var answer = solutions[id-1];
+    return (answer==solution);
   }
 }
