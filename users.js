@@ -1,12 +1,11 @@
 /** Users Module */
 
-var crypto = require('crypto')
-  , shasum = crypto.createHash('sha1');
+var crypto = require('crypto');
 
 module.exports = function(r){
   var createUser = function(username, password, cb){
     username = username.replace(/\W/g, '');
-    var hash = shasum.update(password+"T)A(YR(*QEHWDOEIUF").digest('hex');
+    var hash = require('crypto').createHash('sha1').update(password+"TEHWDOEIUF").digest('hex');
     //check if user already exists
     var userInDB = r.sismember("users",username, function(err,res){
       if(err)

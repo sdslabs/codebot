@@ -2,6 +2,7 @@ var problems = require("./problem"),
     util = require("./util");
 //Express App, Configuration, Redis db
 module.exports=function(app,config, r){
+  var users= require('./users')(r);
   function dbError(res){
     res.json("There was an error in performing your request.")
   }
@@ -34,6 +35,18 @@ module.exports=function(app,config, r){
   app.get('/whoami',function(req,res){
     res.json({msg:req.session.username});
   });
+
+  app.get('/register/:username/:password', function(req, res){
+    users.create(req.params.username, req.params.password, function(result){
+      if(result){
+        res.json("User successfully created.");
+        req.session.username = req.params.username.replace(/\W/g, '');
+      }
+      else{
+        res.json("[[;;;red]Error creating a user. Try a different username.")
+      }
+    })
+  });
   /**
    * Some basic help text 
    */
@@ -44,9 +57,10 @@ module.exports=function(app,config, r){
       { msg:'[[b;;;white]problems] to see first 10 problems' },
       { msg:'[[b;;;white]problems <start> <end>] to view a list of problems numbering from start to end.' },
       { msg:'[[b;;;white]problem <ID>] to view a particular problem' },
+      { msg:'[[b;;;white]register <username> <password>] to register for CodeBot.' },
+      { msg:'[[b;;;white]login <username> <password>] to login.' },
       { msg:'[[b;;;white]submit <ID> <Solution>] to submit a solution for a problem'  },
-      { msg:'[[b;;;white]users] to see list of top 10 users' },
-      { msg:'[[b;;;white]score] to see your own score' },
+      { msg:'[[b;;;white]user <username>] to see the profile of a user' },
       { msg:'Several other terminal commands (like [[;;;red]ls,cd,whoami] etc) are also supported.' }
     ]);
   });
@@ -96,7 +110,15 @@ module.exports=function(app,config, r){
         res.json(response);
         break;
       case 'users':
-        res.json('all top recent');
+        users.get(function(userList){
+          var response='';
+          for(i in userList){
+            response+=userList[i]+"\t";
+            if(i%10==0)
+              response+="\n";
+          }
+          res.json(response);
+        });
         break;
       default:
         res.json('[[b;;;]problems/]  README [[b;;;]users/]');
