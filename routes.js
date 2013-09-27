@@ -109,7 +109,7 @@ module.exports=function(app,config){
     switch(cwd){
       case '/':
         if(file == 'README')
-          res.json({msg: '<b>CodeBot</b> is a mathematical initiative by <a target="_blank" href="https://facebook.com/SDSLabs">SDSLabs</a>, IIT Roorkee. The problems are same as those of <a href="https://projecteuler.net">Project Euler</a> and are used under a <a href="https://projecteuler.net/copyright">CC BY-NC-SA 2.0 UK</a> Licence.', raw:true});
+          res.json({msg: '<b>CodeBot</b> is an alternative interface to Project Euler, made by <a target="_blank" href="https://facebook.com/SDSLabs">SDSLabs</a>, IIT Roorkee. The problems are same as those of <a href="https://projecteuler.net">Project Euler</a> and are used under a <a href="https://projecteuler.net/copyright">CC BY-NC-SA 2.0 UK</a> Licence.', raw:true});
         else
           res.json("cat: "+file+": No such file or directory");
         break;
