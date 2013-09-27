@@ -1,6 +1,14 @@
 var problems = require("./problem"),
     util = require("./util");
 //Express App, Configuration, Redis db
+
+var auth= function(req,res, next){
+  if(req.session.username)
+    next();
+  else
+    res.json("You need to be logged in to perform this action");
+}
+
 module.exports=function(app,config, r){
   var users= require('./users')(r);
   function dbError(res){
@@ -13,7 +21,7 @@ module.exports=function(app,config, r){
    * Also saves the current viewing problem inside session
    */
   app.get('/problem/:id',function(req,res){
-    var id = req.params.id;
+    var id = parseInt(req.params.id);
     req.session.problemId = id;//Save the current problem Id for later use
     var title = problems.getTitle(id);
     var html = problems.getHTML(id);
@@ -23,19 +31,29 @@ module.exports=function(app,config, r){
     }
     else
     {
-      msg = [
-        {msg:"[[b;;]"+id+". "+title+"]"},
-        {msg:html,raw:true}
-      ];
-      res.json(msg);
+      users.solvers(id, function(solvers){
+        msg = [
+          {msg:"[[b;;]"+id+". "+title+"]"},
+          {msg:html,raw:true},
+          "[[b;;;]Solved by "+solvers.length+" user(s).]"
+        ];
+        res.json(msg);  
+      });
     }
   }); /**
    * Respond back with the username
    */
-  app.get('/whoami',function(req,res){
+  app.get('/whoami', auth, function(req,res){
     res.json(req.session.username|| "guest");
   });
-
+  app.get('/user/:username', function(req,res){
+    users.solvedProblems(req.params.username, function(response){
+      if(response.length==0)
+        res.json("No solved problems");
+      else
+        res.json(["Problems solved by "+req.params.username+": ", response.join(", ")]);
+    })
+  });
   app.get('/register/:username/:password', function(req, res){
     var username = req.params.username.replace(/\W/g, '');
     users.create(username, req.params.password, function(result){
@@ -102,7 +120,16 @@ module.exports=function(app,config, r){
     }
     res.json(response);
   });
-
+  app.get('/submit/:id/:solution', auth, function(req, res){
+    var id = parseInt(req.params.id);
+    if(problems.check(id, req.params.solution)){
+      res.json("Correct Answer.");
+      users.markSolved(req.session.username, id);
+    }
+    else{
+      res.json("Sorry, Wrong Answer.");
+    }
+  });
   /** Session aware routes **/
   app.get('/pwd',function(req,res){
     if(!req.session.cwd)

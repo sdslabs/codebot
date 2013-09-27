@@ -28,6 +28,17 @@ r.select(1,function(){
         assert(res==false);
       });
     });
+
+    it("should mark a problem as solved", function(){
+      users.markSolved("nemo", 1, function(){
+        users.solvers(1, function(res){
+          assert(res.length==1)
+        });
+        users.solvedProblems("nemo", function(res){
+          assert(res.length==1);
+        });
+      });
+    })
+    
   });
 })
-
