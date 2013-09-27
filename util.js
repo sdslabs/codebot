@@ -1,3 +1,4 @@
+var crypto = require('crypto');
 module.exports={
   pad: function(str, len, pad, dir) {
     var STR_PAD_LEFT = 1;
@@ -29,5 +30,8 @@ module.exports={
     }
     return str;
    
+  },
+  hash: function(str){
+    return require('crypto').createHash('sha1').update(str+"TEHWDOEIUF").digest('hex');
   }
 }

@@ -20,6 +20,14 @@ r.select(1,function(){
       });
     });
 
+    it("should check passwords correctly", function(){
+      users.checkPass("nemo","password", function(res){
+        assert(res==true);
+      });
+      users.checkPass("nemo","wrongpassword", function(res){
+        assert(res==false);
+      });
+    });
   });
 })
 

@@ -33,20 +33,33 @@ module.exports=function(app,config, r){
    * Respond back with the username
    */
   app.get('/whoami',function(req,res){
-    res.json({msg:req.session.username});
+    res.json(req.session.username|| "guest");
   });
 
   app.get('/register/:username/:password', function(req, res){
-    users.create(req.params.username, req.params.password, function(result){
+    var username = req.params.username.replace(/\W/g, '');
+    users.create(username, req.params.password, function(result){
       if(result){
         res.json("User successfully created.");
-        req.session.username = req.params.username.replace(/\W/g, '');
+        req.session.username = username;
       }
       else{
         res.json("[[;;;red]Error creating a user. Try a different username.")
       }
     })
   });
+
+  app.get('/login/:username/:password', function(req,res){
+    var username = req.params.username.replace(/\W/g, '');
+    users.checkPass(username, req.params.password, function(response){
+      if(response==true){
+        req.session.username = username;
+        res.json("Logged in as "+ req.params.username+" successfully.");
+      }
+      else
+        res.json("[[;;;red]Error in logging in.");
+    })
+  })
   /**
    * Some basic help text 
    */
