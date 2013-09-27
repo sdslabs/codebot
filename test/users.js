@@ -3,19 +3,23 @@ var redis = require("redis"),
     r = redis.createClient();
 var users = require("../users")(r);
 
-describe("User", function(){
+//Choose the test database, instead of the production (0)
+r.select(1,function(){
+  r.flushdb();
+  describe("User Module", function(){
 
-  //remove user from db
-  /*r.srem("users", "captn3m0");
-  r.del("passwords:captn3m0");
-  it("should create a new user", function(){
-    r.del("users:captn3m0:username");
-    r.del("users:captn3m0:password");
-    assert(users.create("captn3m0","password")==true);
-  });*/
-  it("list all users", function(){
-    users.get(function(userList){
-      assert(userList);
+    it("should create a new user", function(){
+      users.create("nemo","password", function(res){
+        assert(res);
+      });
     });
+
+    it("should list all users", function(){
+      users.get(function(userList){
+        assert(userList.length>0);
+      });
+    });
+
   });
-});
+})
+
