@@ -2,7 +2,10 @@
  * Module dependencies.
  */
 var express = require('express'),
-    config = require('./config');
+    config = require('./config'),
+    redis = require("redis"),
+    r = redis.createClient();
+
 
 var app = module.exports = express();
 function setSession(req,res,next){
@@ -22,7 +25,12 @@ app.configure(function(){
     app.use(app.router);
 });
 
+
+r.on("error", function (err) {
+  console.log("Error " + err);
+  process.exit(0);
+});
 // Routes
-require('./routes')(app,config);
+require('./routes')(app, config, r);
 
 app.listen(3000);

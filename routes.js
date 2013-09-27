@@ -1,6 +1,7 @@
 var problems = require("./problem"),
     util = require("./util");
-module.exports=function(app,config){
+//Express App, Configuration, Redis db
+module.exports=function(app,config, r){
   function dbError(res){
     res.json("There was an error in performing your request.")
   }
