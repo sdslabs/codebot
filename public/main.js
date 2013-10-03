@@ -16,6 +16,9 @@ $(document).ready(function(){
       }
       term.pause();//pause it till we get a reply
       var url = "/"+command.split(' ').join('/');
+      
+      if(url=="/cd/.."||url=="/cd//" || url="..")
+        url = "/cd";
       $.getJSON(url, function(data){
         write(data);
         term.resume();
