@@ -43,7 +43,7 @@ module.exports=function(app,config, r){
   }); /**
    * Respond back with the username
    */
-  app.get('/whoami', auth, function(req,res){
+  app.get('/whoami', function(req,res){
     res.json(req.session.username|| "guest");
   });
   app.get('/user/:username', function(req,res){
