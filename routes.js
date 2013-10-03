@@ -62,7 +62,7 @@ module.exports=function(app,config, r){
         req.session.username = username;
       }
       else{
-        res.json("[[;;;red]Error creating a user. Try a different username.")
+        res.json("[[;;;red]Error creating a user. Try a different username. (Valid usernames can only contain a-z,A-Z, 0-9 characters)")
       }
     })
   });
