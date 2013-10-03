@@ -3,9 +3,20 @@
  */
 var express = require('express'),
     config = require('./config'),
-    redis = require("redis"),
-    r = redis.createClient();
+    redis = require("redis");
 
+var r;
+//Production
+if(process.env.REDISCLOUD_URL){
+    var url = require("url");
+    var redisURL = url.parse(process.env.REDISCLOUD_URL);
+    r = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+    client.auth(redisURL.auth.split(":")[1]);
+}
+//Development
+else{
+    r = redis.createClient();
+}
 
 var app = module.exports = express();
 function setSession(req,res,next){
