@@ -44,4 +44,4 @@ r.on("error", function (err) {
 // Routes
 require('./routes')(app, config, r);
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
