@@ -52,3 +52,6 @@ $(document).ready(function(){
     );
   });
 });
+
+if(document.location.host=='codebot.herokuapp.com')
+	document.location="http://codebot.sdslabs.co.in/";
