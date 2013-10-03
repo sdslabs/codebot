@@ -44,10 +44,6 @@ $(document).ready(function(){
         greetings: 'Welcome to CodeBot. Type [[b;;]help] to begin',
         height: $(window).height()-100,
         prompt: user + '@CodeBot > ',
-        tabcompletion: true,
-        completion: function(term, partialCommand, cb){
-          cb(["problems, problem"]);
-        },
         keydown: function(e, term){
           if(e.keyCode==76 && e.ctrlKey==true)
             term.clear();
