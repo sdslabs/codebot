@@ -1,6 +1,6 @@
 /* TEAM */
 Developer: Abhay Rana
-Contact: nemo@sdsabs.co.in>
+Contact: nemo@sdslabs.co.in
 Twitter: capt_n3m0
 
 QA: Abhishek Das
@@ -12,5 +12,5 @@ Project Euler: http://projecteuler.net/
 
 /* SITE */
 IDE: Sublime Text 2
-Stack: Express, node.js
-Host: CloudNo.de
+Stack: Express, node.js, redis
+Host: Heroku
