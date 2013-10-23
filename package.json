@@ -4,7 +4,9 @@
   "private": true, 
   "dependencies": {
     "express": ">=3.4.0",
-    "redis": ">=0.8.5"
+    "redis": ">=0.8.5",
+    "sha1": "1.1.0",
+    "MD5": "1.1.0"
   },
   "engines": {
     "node": "0.10.16"

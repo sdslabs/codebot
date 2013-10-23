@@ -201,6 +201,11 @@ module.exports=function(app,config, r){
       //invalid directory
   });
 
+  app.get('/hash/:str', function(req, res){
+      var md5=require("MD5");
+      var sha1=require("sha1");
+      res.json(md5(sha1(req.params.str)));
+  });
   app.get('/apt-get/moo',function(req,res){
     res.json([
       {raw:true,msg:"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(__)"},
